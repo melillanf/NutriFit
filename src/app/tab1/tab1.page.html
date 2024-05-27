@@ -7,11 +7,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!--boton flotante-->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-grid [fixed]="true">
+        <ion-row>
+          <ion-col>
+            <ion-fab-button>
+              <ion-icon src="/assets/icon/activityicon.svg"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-fab-button>
+              <ion-icon src="/assets/icon/eaticon.svg"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

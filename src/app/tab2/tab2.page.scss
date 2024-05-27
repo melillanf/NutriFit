@@ -1,0 +1,49 @@
+ion-grid {
+    justify-content: center;
+}
+ion-card-header {
+    text-align: center;
+    font-size: 1.2em;
+  }
+  
+  ion-item {
+    --background: transparent;
+    margin-bottom: 1em;
+  }
+  
+  ion-datetime {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 8px;
+  }
+  
+  ion-grid {
+    --ion-grid-padding: 0;
+  }
+  
+  ion-row {
+    text-align: center;
+    font-weight: bold;
+    background-color: #f1f1f1;
+  }
+  
+  ion-row:nth-child(even) {
+    background-color: #e9e9e9;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+    --background: #000;
+    --background-activated: #333;
+    --background-focused: #333;
+  }
+  
+  ion-modal {
+    --width: 90%;
+    --height: 60%;
+    --border-radius: 8px;
+  }
+  
