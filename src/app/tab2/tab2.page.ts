@@ -1,34 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ModalController } from '@ionic/angular';
-
-interface Food {
-  id: number;
-  name: string;
-  grams: number;
-}
+import { FoodService } from '../services/food.service';
 
 @Component({
   selector: 'app-tab2',
-  templateUrl: './tab2.page.html',
-  styleUrls: ['./tab2.page.scss'],
+  templateUrl: 'tab2.page.html',
+  styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  foodTypes: any[] = [];
-  foodLog: Food[] = [];
-  selectedFoodId: number = 0; // Inicializar como 0
-  grams: number = 0; // Inicializar como 0
+  foodLog = [
+    { name: 'Alimento 1', grams: 100, calories: 200 },
+    { name: 'Alimento 2', grams: 200, calories: 1000 },
+    { name: 'Alimento 3', grams: 150, calories: 500 },
+    { name: 'Alimento 4', grams: 50, calories: 100 }
+  ];
 
-  constructor(private modalController: ModalController) {}
+  selectedDate: string = '';
+  isModalOpen = false;
+  newFood = { id: null, name: '', grams: null, calories: null };
+  foodOptions: { id: number, name: string }[] = [];
+
+  constructor(private foodService: FoodService) {}
 
   ngOnInit() {
-    this.loadFoodTypes();
+    this.loadFoods();
   }
 
-  loadFoodTypes() {
-    this.http.get<any[]>('assets/food-types.json').subscribe(data => {
-      this.foodTypes = data;
-    });
+  loadFoods() {
+    this.foodService.getFoods().subscribe(
+      (data: { id: number, name: string }[]) => {
+        this.foodOptions = data;
+      },
+      (error: any) => {
+        console.error('Error loading foods', error);
+      }
+    );
   }
 
   openAddFoodModal() {
@@ -40,12 +45,18 @@ export class Tab2Page implements OnInit {
   }
 
   addFood() {
-    if (this.newFood.name && this.newFood.grams && this.newFood.calories) {
-      this.foodLog.push({ ...this.newFood });
-      this.newFood = { name: '', grams: null, calories: null };
-      this.isModalOpen = false;
+    if (this.newFood.id && this.newFood.grams && this.newFood.calories) {
+      const selectedFood = this.foodOptions.find(food => food.id === this.newFood.id);
+      if (selectedFood) {
+        this.foodLog.push({
+          name: selectedFood.name,
+          grams: this.newFood.grams,
+          calories: this.newFood.calories
+        });
+        this.newFood = { id: null, name: '', grams: null, calories: null };
+        this.isModalOpen = false;
+      }
     } else {
-      // Optionally show a message that all fields are required
       alert('Todos los campos son obligatorios');
     }
   }
