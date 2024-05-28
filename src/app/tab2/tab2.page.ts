@@ -1,63 +1,71 @@
-import { Component, OnInit } from '@angular/core';
-import { FoodService } from '../services/food.service';
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AlertController } from '@ionic/angular';
+
+interface Food {
+  name: string;
+  caloriesPerGram: number;
+}
+
+interface FoodRecord {
+  food: string;
+  grams: number;
+  calories: number;
+}
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  styleUrls: ['tab2.page.scss'],
 })
-export class Tab2Page implements OnInit {
-  foodLog = [
-    { name: 'Alimento 1', grams: 100, calories: 200 },
-    { name: 'Alimento 2', grams: 200, calories: 1000 },
-    { name: 'Alimento 3', grams: 150, calories: 500 },
-    { name: 'Alimento 4', grams: 50, calories: 100 }
-  ];
+export class Tab2Page {
+  selectedDate: string = new Date().toISOString();
+  foods: Food[] = [];
+  foodRecords: FoodRecord[] = [];
 
-  selectedDate: string = '';
-  isModalOpen = false;
-  newFood = { id: null, name: '', grams: null, calories: null };
-  foodOptions: { id: number, name: string }[] = [];
-
-  constructor(private foodService: FoodService) {}
-
-  ngOnInit() {
+  constructor(private http: HttpClient, private alertCtrl: AlertController) {
     this.loadFoods();
   }
 
   loadFoods() {
-    this.foodService.getFoods().subscribe(
-      (data: { id: number, name: string }[]) => {
-        this.foodOptions = data;
-      },
-      (error: any) => {
-        console.error('Error loading foods', error);
-      }
-    );
+    this.http.get<Food[]>('./assets/data/foods.json').subscribe(data => {
+      this.foods = data;
+    });
   }
 
-  openAddFoodModal() {
-    this.isModalOpen = true;
-  }
-
-  closeModal() {
-    this.isModalOpen = false;
-  }
-
-  addFood() {
-    if (this.newFood.id && this.newFood.grams && this.newFood.calories) {
-      const selectedFood = this.foodOptions.find(food => food.id === this.newFood.id);
-      if (selectedFood) {
-        this.foodLog.push({
-          name: selectedFood.name,
-          grams: this.newFood.grams,
-          calories: this.newFood.calories
-        });
-        this.newFood = { id: null, name: '', grams: null, calories: null };
-        this.isModalOpen = false;
-      }
-    } else {
-      alert('Todos los campos son obligatorios');
-    }
+  async addRecord() {
+    const alert = await this.alertCtrl.create({
+      header: 'Agregar nuevo registro',
+      inputs: this.foods.map(food => ({
+        type: 'radio',
+        label: food.name,
+        value: food.name,
+        checked: food === this.foods[0] // Marcar como seleccionado el primer alimento
+      })),
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Agregar',
+          handler: (data) => {
+            const selectedFood = this.foods.find(food => food.name === data);
+            if (selectedFood) {
+              const gramsInput = alert.inputs.find(input => input.checked);
+              const grams = gramsInput ? parseInt(gramsInput.value) : 0; // Obtener los gramos del alimento seleccionado
+              const calories = grams * selectedFood.caloriesPerGram;
+              this.foodRecords.push({
+                food: selectedFood.name,
+                grams: grams,
+                calories: calories
+              });
+            }
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
   }
 }

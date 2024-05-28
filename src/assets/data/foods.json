@@ -1,7 +1,5 @@
 [
-    { "id": 1, "name": "Alimento 1" },
-    { "id": 2, "name": "Alimento 2" },
-    { "id": 3, "name": "Alimento 3" },
-    { "id": 4, "name": "Alimento 4" }
-  ]
-  
+  { "name": "Manzana", "caloriesPerGram": 0.52 },
+  { "name": "Banana", "caloriesPerGram": 0.89 },
+  { "name": "Arroz", "caloriesPerGram": 1.3 }
+]

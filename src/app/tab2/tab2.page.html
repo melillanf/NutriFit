@@ -1,56 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Mis comidas</ion-title>
+    <ion-title>Registro de comidas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h2>Registro de mis comidas</h2>
   <ion-item>
-    <ion-label>Seleccionar fecha</ion-label>
-    <ion-datetime display-format="DD - MM - YYYY" [(ngModel)]="selectedDate"></ion-datetime>
+    <ion-label>Fecha</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate"></ion-datetime>
   </ion-item>
 
-  <ion-table>
-    <ion-tr>
-      <ion-th>Alimento</ion-th>
-      <ion-th>Gramos</ion-th>
-      <ion-th>Calorías</ion-th>
-    </ion-tr>
-    <ion-tr *ngFor="let food of foodLog">
-      <ion-td>{{ food.name }}</ion-td>
-      <ion-td>{{ food.grams }}</ion-td>
-      <ion-td>{{ food.calories }}</ion-td>
-    </ion-tr>
-  </ion-table>
+  <ion-grid>
+    <ion-row>
+      <ion-col>Alimento</ion-col>
+      <ion-col>Gramos</ion-col>
+      <ion-col>Calorías</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let record of foodRecords">
+      <ion-col>{{ record.food }}</ion-col>
+      <ion-col>{{ record.grams }}</ion-col>
+      <ion-col>{{ record.calories }}</ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <ion-button expand="full" (click)="openAddFoodModal()">Ingresar nuevo alimento</ion-button>
-
-  <ion-modal [(ngModel)]="isModalOpen">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Nuevo alimento</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeModal()">Cerrar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-item>
-        <ion-label>Tipo de alimento</ion-label>
-        <ion-select [(ngModel)]="newFood.id">
-          <ion-select-option *ngFor="let food of foodOptions" [value]="food.id">{{ food.name }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Gramos</ion-label>
-        <ion-input type="number" [(ngModel)]="newFood.grams"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Calorías</ion-label>
-        <ion-input type="number" [(ngModel)]="newFood.calories"></ion-input>
-      </ion-item>
-      <ion-button expand="full" (click)="addFood()">Añadir</ion-button>
-    </ion-content>
-  </ion-modal>
+  <ion-button expand="full" (click)="addRecord()">Agregar nuevo registro</ion-button>
 </ion-content>
