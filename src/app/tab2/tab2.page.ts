@@ -11,13 +11,15 @@ export class Tab2Page {
   selectedDate: Date = new Date();
   foods: any[] = [];
   grams: number = 0;
-  meals: any[] = []; // Agregamos la definición de la propiedad meals
+  meals: any[] = [];
   selectedFood: any;
+  showAddForm: boolean = false;
+
   constructor(private foodService: FoodService, private mealService: MealService) {}
 
   ngOnInit() {
     this.loadFoods();
-    this.loadMeals(); // Llamamos a la función loadMeals al iniciar la página
+    this.loadMeals();
   }
 
   loadFoods() {
@@ -27,17 +29,20 @@ export class Tab2Page {
   }
 
   loadMeals() {
-    // Implementa la lógica para cargar los registros de comidas
     this.meals = this.mealService.getMealsByDate(this.selectedDate);
   }
 
   calculateCalories(food: any, grams: number): number {
-    return food.coeficiente * grams;
+    if (!food || isNaN(grams) || isNaN(food.calorias)) {
+      return 0; // Manejar el caso de datos inválidos
+    }
+    // Convertir las calorías por cada 100 gramos a las calorías según la cantidad ingresada por el usuario
+    return (food.calorias / 100) * grams;
   }
 
   addMeal(food: any, grams: number) {
     const calories = this.calculateCalories(food, grams);
     this.mealService.addMeal({ food, grams, calories, date: this.selectedDate });
-    this.loadMeals(); // Actualizamos la lista de comidas después de agregar una nueva
+    this.loadMeals();
   }
 }
