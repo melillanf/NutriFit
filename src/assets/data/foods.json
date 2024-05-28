@@ -1,5 +1,22 @@
 [
-  { "name": "Manzana", "caloriesPerGram": 0.52 },
-  { "name": "Banana", "caloriesPerGram": 0.89 },
-  { "name": "Arroz", "caloriesPerGram": 1.3 }
+  {
+    "alimento": "Manzana",
+    "calorias": 52,
+    "gramos_por_caloria": 0.2
+  },
+  {
+    "alimento": "Plátano",
+    "calorias": 89,
+    "gramos_por_caloria": 0.3
+  },
+  {
+    "alimento": "Arroz",
+    "calorias": 130,
+    "gramos_por_caloria": 0.25
+  },
+  {
+    "alimento": "Pollo",
+    "calorias": 165,
+    "gramos_por_caloria": 0.5
+  }
 ]

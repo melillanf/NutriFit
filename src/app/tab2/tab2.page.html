@@ -6,22 +6,29 @@
 
 <ion-content>
   <ion-item>
-    <ion-label>Fecha</ion-label>
-    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate"></ion-datetime>
+    <ion-label>Seleccionar Fecha:</ion-label>
+    <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="selectedDate" (ionChange)="loadMeals()"></ion-datetime>
   </ion-item>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>Alimento</ion-col>
-      <ion-col>Gramos</ion-col>
-      <ion-col>Calorías</ion-col>
-    </ion-row>
-    <ion-row *ngFor="let record of foodRecords">
-      <ion-col>{{ record.food }}</ion-col>
-      <ion-col>{{ record.grams }}</ion-col>
-      <ion-col>{{ record.calories }}</ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let meal of meals">
+      <ion-label>{{ meal.food.alimento }}</ion-label>
+      <ion-label>{{ meal.calories }}</ion-label>
+      <ion-label>{{ meal.grams }}</ion-label>
+    </ion-item>
+  </ion-list>
 
-  <ion-button expand="full" (click)="addRecord()">Agregar nuevo registro</ion-button>
+  <ion-item>
+    <ion-label>Seleccionar Alimento:</ion-label>
+    <ion-select [(ngModel)]="selectedFood">
+      <ion-select-option *ngFor="let food of foods" [value]="food">{{ food.alimento }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Gramos:</ion-label>
+    <ion-input type="number" [(ngModel)]="grams"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="addMeal(selectedFood, grams)">Agregar Registro</ion-button>
 </ion-content>
