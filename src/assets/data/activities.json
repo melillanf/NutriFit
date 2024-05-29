@@ -1,0 +1,15 @@
+[
+    {
+      "actividad": "Correr",
+      "calorias_por_minuto": 10
+    },
+    {
+      "actividad": "Caminar",
+      "calorias_por_minuto": 5
+    },
+    {
+      "actividad": "Natación",
+      "calorias_por_minuto": 12
+    }
+  ]
+  

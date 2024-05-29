@@ -1,14 +1,35 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Mis comidas</ion-title>
+    <ion-title>Registro de actividad física</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-label>Seleccionar Fecha:</ion-label>
+    <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="selectedDate" (ionChange)="loadActivities()"></ion-datetime>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let activity of activities">
+      <ion-label>{{ activity.description }}</ion-label>
+      <ion-label>{{ activity.time }}</ion-label>
+      <ion-label>{{ activity.caloriesBurned }}</ion-label>
+    </ion-item>
+  </ion-list>
   
-  
-  
+
+  <ion-item>
+    <ion-label>Actividad:</ion-label>
+    <ion-select [(ngModel)]="description">
+      <ion-select-option *ngFor="let activity of activities" [value]="activity">{{ activity.actividad }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Tiempo (minutos):</ion-label>
+    <ion-input type="number" [(ngModel)]="time"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="addActivity()">Agregar Actividad</ion-button>
 </ion-content>
