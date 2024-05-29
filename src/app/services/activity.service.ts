@@ -6,20 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ActivityService {
-  private activities: any[] = [];
+  private activitiesUrl = 'assets/data/activities.json';
 
-  constructor(private http: HttpClient) { }
-
-  getActivitiesByDate(date: Date): any[] {
-    // Simplemente devolvemos las actividades para la fecha dada (simulado)
-    return this.activities.filter(activity => activity.date.toDateString() === date.toDateString());
-  }
-
-  addActivity(activity: any): void {
-    this.activities.push(activity);
-  }
+  constructor(private http: HttpClient) {}
 
   getActivities(): Observable<any[]> {
-    return this.http.get<any[]>('assets/data/activities.json');
+    return this.http.get<any[]>(this.activitiesUrl);
   }
 }

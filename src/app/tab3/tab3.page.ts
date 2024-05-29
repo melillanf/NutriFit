@@ -1,48 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../services/activity.service';
+import { ActivitieslogService } from '../services/activitieslog.service';
 
 @Component({
   selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  templateUrl: './tab3.page.html',
+  styleUrls: ['./tab3.page.scss'],
 })
-export class Tab3Page {
-  selectedDate: Date = new Date();
+export class Tab3Page implements OnInit {
   activities: any[] = [];
-  description: string = '';
-  time: number = 0;
-  caloriesBurned: number = 0;
+  selectedDate: string = ''; // Inicializar con una cadena vacía
+  activityLog: any[] = [];
+  selectedActivity: any;
+  minutes: number = 0; // Inicializar con 0
+  showAddActivity = false;
 
-  constructor(private activityService: ActivityService) {}
+  constructor(
+    private activityService: ActivityService,
+    private activitieslogService: ActivitieslogService
+  ) {}
 
   ngOnInit() {
-    this.loadActivities();
-  }
-
-  loadActivities() {
     this.activityService.getActivities().subscribe(activities => {
       this.activities = activities;
     });
   }
 
-  calculateCaloriesBurned(activity: any, time: number): number {
-    return activity.calorias_por_minuto * time;
+  loadActivityLog() {
+    this.activityLog = this.activitieslogService.getActivityLogsByDate(this.selectedDate);
   }
 
   addActivity() {
-    if (this.description && this.time && this.caloriesBurned) {
-      const activity = {
-        description: this.description,
-        time: this.time,
-        caloriesBurned: this.caloriesBurned,
-        date: this.selectedDate
-      };
-      this.activityService.addActivity(activity);
-      this.loadActivities(); // Actualizamos la lista de actividades después de agregar una nueva
-      this.description = '';
-      this.time = 0;
-      this.caloriesBurned = 0;
-    }
+    const caloriesBurned = this.selectedActivity.caloriesPerMinute * this.minutes;
+    const newActivity = {
+      name: this.selectedActivity.name,
+      minutes: this.minutes,
+      calories: caloriesBurned,
+      date: this.selectedDate
+    };
+    this.activitieslogService.addActivityLog(newActivity);
+    this.loadActivityLog();
+    this.showAddActivity = false;
   }
-  
 }

@@ -1,15 +1,14 @@
 [
-    {
-      "actividad": "Correr",
-      "calorias_por_minuto": 10
-    },
-    {
-      "actividad": "Caminar",
-      "calorias_por_minuto": 5
-    },
-    {
-      "actividad": "Natación",
-      "calorias_por_minuto": 12
-    }
-  ]
-  
+  {
+    "name": "Correr",
+    "caloriesPerMinute": 10
+  },
+  {
+    "name": "Caminar",
+    "caloriesPerMinute": 4
+  },
+  {
+    "name": "Bicicleta",
+    "caloriesPerMinute": 8
+  }
+]
