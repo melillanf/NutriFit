@@ -9,7 +9,7 @@ import { ActivitieslogService } from '../services/activitieslog.service';
 })
 export class Tab3Page implements OnInit {
   activities: any[] = [];
-  selectedDate: string = ''; // Inicializar con una cadena vacía
+  selectedDate: Date = new Date(); // Inicializar con una cadena vacía
   activityLog: any[] = [];
   selectedActivity: any;
   minutes: number = 0; // Inicializar con 0

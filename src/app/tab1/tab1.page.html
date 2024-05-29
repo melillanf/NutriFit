@@ -1,34 +1,23 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Balance Calórico</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!--boton flotante-->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-grid [fixed]="true">
-        <ion-row>
-          <ion-col>
-            <ion-fab-button>
-              <ion-icon src="/assets/icon/activityicon.svg"></ion-icon>
-            </ion-fab-button>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-fab-button>
-              <ion-icon src="/assets/icon/eaticon.svg"></ion-icon>
-            </ion-fab-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-fab-list>
-  </ion-fab>
+<ion-content>
+  <ion-item>
+    <ion-label>Seleccione una fecha</ion-label>
+    <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="selectedDate" (ionChange)="loadBalance()"></ion-datetime>
+  </ion-item>
+  
+  <ion-list>
+    <ion-item *ngFor="let log of balanceLog">
+      <ion-label>
+        <h2>{{ log.date }}</h2>
+        <p>Calorías Consumidas: {{ log.caloriesConsumed }}</p>
+        <p>Calorías Quemadas: {{ log.caloriesBurned }}</p>
+        <p>Balance: {{ log.caloricBalance }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
